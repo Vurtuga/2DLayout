@@ -16,6 +16,12 @@ var ItemTypes;
     ItemTypes[ItemTypes["Table"] = 1] = "Table";
     ItemTypes[ItemTypes["Barrier"] = 2] = "Barrier";
 })(ItemTypes || (ItemTypes = {}));
+var TableSizes;
+(function (TableSizes) {
+    TableSizes[TableSizes["Small"] = 0] = "Small";
+    TableSizes[TableSizes["Medium"] = 1] = "Medium";
+    TableSizes[TableSizes["Large"] = 2] = "Large";
+})(TableSizes || (TableSizes = {}));
 var TableShapes;
 (function (TableShapes) {
     TableShapes[TableShapes["Square"] = 0] = "Square";
@@ -30,15 +36,39 @@ function GenerateLayout() {
     console.log("Begin Generation");
     const layout = [
         [
-            { ItemType: ItemTypes.Barrier, ItemWidth: 50, ItemHeight: 20 },
-            { ItemType: ItemTypes.Barrier, ItemWidth: 50, ItemHeight: 20 },
-            { ItemType: ItemTypes.Barrier, ItemWidth: 50, ItemHeight: 20 }
+            { ItemType: ItemTypes.Table,
+                TableObj: {
+                    NoOfCustomers: 5,
+                    ReservationDateTime: new Date(),
+                    ReservationName: "Mohamed Khalifa",
+                    TableNumber: 1,
+                    TableShape: TableShapes.Circle,
+                    TableState: TableStates.Available,
+                    TableSize: TableSizes.Small
+                }
+            },
+            { ItemType: ItemTypes.Barrier },
+            { ItemType: ItemTypes.FreeSpace }
         ],
         [
-            { ItemType: ItemTypes.Barrier, ItemWidth: 50 },
-            { ItemType: ItemTypes.Barrier, ItemWidth: 50, ItemHeight: 20 },
-            { ItemType: ItemTypes.Barrier, ItemWidth: 50, ItemHeight: 20 }
+            { ItemType: ItemTypes.Table,
+                TableObj: {
+                    NoOfCustomers: 5,
+                    ReservationDateTime: new Date(),
+                    ReservationName: "Mohamed Khalifa",
+                    TableNumber: 1,
+                    TableShape: TableShapes.Circle,
+                    TableState: TableStates.Available,
+                    TableSize: TableSizes.Small
+                }
+            },
+            { ItemType: ItemTypes.Barrier },
+            { ItemType: ItemTypes.FreeSpace }
         ]
     ];
+    layout.forEach(renderRow);
     console.log(layout);
+}
+function renderRow(row) {
+    console.log(row);
 }

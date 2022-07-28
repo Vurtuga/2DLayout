@@ -11,7 +11,12 @@ enum TableStates {
 enum ItemTypes {
     FreeSpace,
     Table,
-    Barrier,
+    Barrier
+}
+enum TableSizes {
+    Small,
+    Medium,
+    Large
 }
 enum TableShapes{
     Square,
@@ -24,16 +29,17 @@ enum TableShapes{
 }
 type LayoutItem = {
     ItemType: ItemTypes,
-    ItemWidth: number,
-    ItemHeight:number,
+    /* ItemWidth: number,
+    ItemHeight:number, */
     TableObj? :{
         TableShape: TableShapes,
         TableState: TableStates,
+        TableSize: TableSizes,
         TableNumber: number,
         NoOfCustomers: number,
         ReservationDateTime: Date,
         ReservationName: string,
-        NoOfChairs:number,
+       /*  NoOfChairs:number, */
 
     }    
 }
@@ -41,10 +47,41 @@ function GenerateLayout(){
     console.log("Begin Generation");
     const layout : LayoutItem [][] =[
         [
-            {ItemType : ItemTypes.Barrier,ItemWidth :50, ItemHeight:20},
-            {ItemType : ItemTypes.Barrier,ItemWidth :50, ItemHeight:20},
-            {ItemType : ItemTypes.Barrier,ItemWidth :50, ItemHeight:20}
+            {ItemType : ItemTypes.Table ,
+             TableObj : {
+                 NoOfCustomers : 5,
+                 ReservationDateTime : new Date(),
+                 ReservationName: "Mohamed Khalifa",
+                 TableNumber:1,
+                 TableShape: TableShapes.Circle,
+                 TableState:TableStates.Available,
+                 TableSize :TableSizes.Small
+             }
+            },
+            {ItemType : ItemTypes.Barrier},
+            {ItemType : ItemTypes.FreeSpace}
+        ],
+        [
+            {ItemType : ItemTypes.Table ,
+             TableObj : {
+                 NoOfCustomers : 5,
+                 ReservationDateTime : new Date(),
+                 ReservationName: "Mohamed Khalifa",
+                 TableNumber:1,
+                 TableShape: TableShapes.Circle,
+                 TableState:TableStates.Available,
+                 TableSize :TableSizes.Small
+             }
+            },
+            {ItemType : ItemTypes.Barrier},
+            {ItemType : ItemTypes.FreeSpace}
         ]
     ];
+    layout.forEach(renderRow);
     console.log(layout);
+}
+
+function renderRow(row: LayoutItem[]){
+    console.log(row);
+
 }
