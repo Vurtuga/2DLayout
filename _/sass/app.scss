@@ -1,0 +1,16 @@
+.grid-container {
+    display: grid;
+    .grid-item{
+        min-height: 50px;
+        min-width: 50px;
+        &.table{
+            background: red;
+        }
+        &.barrier{
+            background: blue;
+        }
+        &.free-space{
+            background: yellow;
+        }
+    }
+}

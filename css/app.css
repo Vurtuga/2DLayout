@@ -1,3 +1,13 @@
-
+.grid-container {
+  display: grid; }
+  .grid-container .grid-item {
+    min-height: 50px;
+    min-width: 50px; }
+    .grid-container .grid-item.table {
+      background: red; }
+    .grid-container .grid-item.barrier {
+      background: blue; }
+    .grid-container .grid-item.free-space {
+      background: yellow; }
 
 /*# sourceMappingURL=app.css.map */

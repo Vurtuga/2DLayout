@@ -1,4 +1,9 @@
 "use strict";
+const itemWrapper = document.getElementById('grid');
+const grid = document.createElement('div');
+var gridAreaTemplate = "";
+grid.setAttribute("class", "grid-container");
+var layoutTemplate;
 var TableStates;
 (function (TableStates) {
     TableStates[TableStates["Available"] = 0] = "Available";
@@ -12,9 +17,10 @@ var TableStates;
 })(TableStates || (TableStates = {}));
 var ItemTypes;
 (function (ItemTypes) {
-    ItemTypes[ItemTypes["FreeSpace"] = 0] = "FreeSpace";
-    ItemTypes[ItemTypes["Table"] = 1] = "Table";
-    ItemTypes[ItemTypes["Barrier"] = 2] = "Barrier";
+    ItemTypes[ItemTypes["Skip"] = 0] = "Skip";
+    ItemTypes[ItemTypes["FreeSpace"] = 1] = "FreeSpace";
+    ItemTypes[ItemTypes["Table"] = 2] = "Table";
+    ItemTypes[ItemTypes["Barrier"] = 3] = "Barrier";
 })(ItemTypes || (ItemTypes = {}));
 var TableSizes;
 (function (TableSizes) {
@@ -37,6 +43,9 @@ function GenerateLayout() {
     const layout = [
         [
             { ItemType: ItemTypes.Table,
+                ItemHeight: 2,
+                ItemWidth: 2,
+                ItemIndex: "X00",
                 TableObj: {
                     NoOfCustomers: 5,
                     ReservationDateTime: new Date(),
@@ -47,11 +56,13 @@ function GenerateLayout() {
                     TableSize: TableSizes.Small
                 }
             },
-            { ItemType: ItemTypes.Barrier },
-            { ItemType: ItemTypes.FreeSpace }
+            { ItemType: ItemTypes.Barrier, ItemIndex: "X01", ItemHeight: 1, ItemWidth: 1 },
+            { ItemType: ItemTypes.FreeSpace, ItemIndex: "X02", ItemHeight: 1, ItemWidth: 1 }
         ],
         [
-            { ItemType: ItemTypes.Table,
+            { ItemType: ItemTypes.Skip, ItemIndex: "X10", ItemHeight: 1, ItemWidth: 2 },
+            { ItemType: ItemTypes.Barrier, ItemIndex: "X11", ItemHeight: 1, ItemWidth: 1 },
+            { ItemType: ItemTypes.Table, ItemIndex: "X12", ItemHeight: 1, ItemWidth: 1,
                 TableObj: {
                     NoOfCustomers: 5,
                     ReservationDateTime: new Date(),
@@ -61,14 +72,47 @@ function GenerateLayout() {
                     TableState: TableStates.Available,
                     TableSize: TableSizes.Small
                 }
-            },
-            { ItemType: ItemTypes.Barrier },
-            { ItemType: ItemTypes.FreeSpace }
+            }
+        ],
+        [
+            { ItemType: ItemTypes.Skip, ItemIndex: "X20", ItemHeight: 1, ItemWidth: 2 },
+            { ItemType: ItemTypes.Barrier, ItemIndex: "X21", ItemHeight: 1, ItemWidth: 1 },
+            { ItemType: ItemTypes.Skip, ItemIndex: "X22", ItemHeight: 1, ItemWidth: 2 },
         ]
     ];
     layout.forEach(renderRow);
     console.log(layout);
+    itemWrapper === null || itemWrapper === void 0 ? void 0 : itemWrapper.append(grid);
+    console.log("gridAreaTemplate", gridAreaTemplate);
+    grid.style.gridTemplateAreas = gridAreaTemplate;
 }
-function renderRow(row) {
-    console.log(row);
+function renderRow(row, index) {
+    console.log(index);
+    let rowTemplate = "";
+    row.forEach(function (item) {
+        if (item.ItemType == ItemTypes.Table) {
+            let htmlItem = document.createElement('div');
+            htmlItem.setAttribute("class", "grid-item table");
+            for (let i = 0; i < item.ItemWidth; i++) {
+            }
+            htmlItem.style.gridArea = item.ItemIndex;
+            rowTemplate = rowTemplate.concat(item.ItemIndex, " ");
+            grid === null || grid === void 0 ? void 0 : grid.appendChild(htmlItem);
+        }
+        else if (item.ItemType == ItemTypes.Barrier) {
+            let htmlItem = document.createElement('div');
+            htmlItem.setAttribute("class", "grid-item barrier");
+            htmlItem.style.gridArea = item.ItemIndex;
+            rowTemplate = rowTemplate.concat(item.ItemIndex, " ");
+            grid === null || grid === void 0 ? void 0 : grid.appendChild(htmlItem);
+        }
+        else {
+            let htmlItem = document.createElement('div');
+            htmlItem.setAttribute("class", "grid-item free-space");
+            htmlItem.style.gridArea = item.ItemIndex;
+            rowTemplate = rowTemplate.concat(item.ItemIndex, " ");
+            grid === null || grid === void 0 ? void 0 : grid.appendChild(htmlItem);
+        }
+    });
+    gridAreaTemplate = gridAreaTemplate.concat("'", rowTemplate, "'");
 }
