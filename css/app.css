@@ -1,13 +1,19 @@
 .grid-container {
-  display: grid; }
-  .grid-container .grid-item {
-    min-height: 50px;
-    min-width: 50px; }
-    .grid-container .grid-item.table {
-      background: red; }
-    .grid-container .grid-item.barrier {
-      background: blue; }
-    .grid-container .grid-item.free-space {
-      background: yellow; }
+  display: grid;
+  width: 300px;
+  height: 300px;
+}
+.grid-container .grid-item {
+  border: 1px solid #fff;
+}
+.grid-container .grid-item.table {
+  background: red;
+}
+.grid-container .grid-item.barrier {
+  background: blue;
+}
+.grid-container .grid-item.free-space {
+  background: green;
+}
 
 /*# sourceMappingURL=app.css.map */
