@@ -1,19 +1,29 @@
 .grid-container {
   display: grid;
-  width: 300px;
-  height: 300px;
-}
-.grid-container .grid-item {
-  border: 1px solid #fff;
-}
-.grid-container .grid-item.table {
-  background: red;
-}
-.grid-container .grid-item.barrier {
-  background: blue;
-}
-.grid-container .grid-item.free-space {
-  background: green;
-}
+  width: 500px;
+  height: 500px;
+  background: black; }
+  .grid-container .grid-item {
+    border: 1px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; }
+    .grid-container .grid-item img {
+      width: 100%;
+      object-fit: contain; }
+    .grid-container .grid-item.table {
+      background: red;
+      -webkit-mask-image: url(../../images/table.png);
+      mask-image: url(../../images/table.png);
+      -webkit-mask-size: 70%;
+      mask-size: 70%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center; }
+    .grid-container .grid-item.barrier {
+      background: blue; }
+    .grid-container .grid-item.free-space {
+      background: green; }
 
 /*# sourceMappingURL=app.css.map */
