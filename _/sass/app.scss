@@ -1,10 +1,11 @@
 .grid-container {
     display: grid;
-    width: 300px;
-    height: 300px;
+    width: 59.5703125vw;
+    height: 79.42708333333333vh;
+    background: #0c184c;
     .grid-item{
         border: 1px solid #fff;
-        &.table{
+        /* &.table{
             background: red;
         }
         &.barrier{
@@ -12,6 +13,6 @@
         }
         &.free-space{
             background: green;
-        }
+        } */
     }
 }

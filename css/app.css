@@ -1,19 +1,20 @@
 .grid-container {
   display: grid;
-  width: 300px;
-  height: 300px;
+  width: 59.5703125vw;
+  height: 79.4270833333vh;
+  background: #0c184c;
 }
 .grid-container .grid-item {
   border: 1px solid #fff;
-}
-.grid-container .grid-item.table {
-  background: red;
-}
-.grid-container .grid-item.barrier {
-  background: blue;
-}
-.grid-container .grid-item.free-space {
-  background: green;
+  /* &.table{
+      background: red;
+  }
+  &.barrier{
+      background: blue;
+  }
+  &.free-space{
+      background: green;
+  } */
 }
 
 /*# sourceMappingURL=app.css.map */
