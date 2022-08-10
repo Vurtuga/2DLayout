@@ -297,7 +297,7 @@
 .grid-container .grid-item .item-base .item-content img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: fill;
 }
 .grid-container .grid-item .item-base .item-content .badge {
   display: none;
