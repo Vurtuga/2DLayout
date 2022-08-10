@@ -1,18 +1,181 @@
+@import "./interFont";
+
 .grid-container {
     display: grid;
     width: 59.5703125vw;
     height: 79.42708333333333vh;
     background: #0c184c;
     .grid-item{
-        border: 1px solid #fff;
-        /* &.table{
-            background: red;
+        //border: 1px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        position: relative;
+        .item-base{
+            position: absolute;
+            width: 100%; 
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .item-content{
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                height: calc(100% - 20px);
+                width: calc(100% - 20px);
+                .table-number{
+                    font-family: 'Inter';
+                    font-size: 3.90625vh;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: 1;
+                    letter-spacing: normal;
+                    color: #fff;
+                    z-index: 1;
+                    position: absolute;
+                }
+                img{                  
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+                .badge{
+                    display: none;
+                    position: absolute;
+                    z-index: 1;
+                    right: 3%;
+                    top: 3%;
+                    min-width: 2.44140625vw;
+                    min-height: 3.2552083333333335vh;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 15px;
+                    text-transform: uppercase;
+                    font-family: "Inter";
+                    font-size: 1.6927083333333333vh;
+                    font-weight: 500;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    text-align: center;
+                    border: 0.1953125vw solid;
+                }
+                
+            }
+        } 
+        &.stat-available{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(99%) sepia(5%) saturate(332%) hue-rotate(261deg) brightness(113%) contrast(100%);
+                    }
+                    .table-number{
+                        color: #0c184c;
+                    }
+                }
+            }
         }
-        &.barrier{
-            background: blue;
+        &.stat-booked{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(27%) sepia(95%) saturate(2127%) hue-rotate(201deg) brightness(104%) contrast(109%);
+                    }
+                }
+            }
         }
-        &.free-space{
-            background: green;
-        } */
+        &.stat-occupied{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(62%) sepia(78%) saturate(3338%) hue-rotate(142deg) brightness(99%) contrast(101%);
+                    }
+                }
+            }
+        }
+        &.stat-course-delayed{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(44%) sepia(64%) saturate(5739%) hue-rotate(5deg) brightness(106%) contrast(102%);
+                    }
+                }
+            }
+        }
+        &.stat-items-ready-in-kitchen{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(32%) sepia(40%) saturate(5092%) hue-rotate(325deg) brightness(104%) contrast(101%);
+                    }
+                }
+            }
+        }
+        &.stat-kds-bumped-printed{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(89%) sepia(25%) saturate(6892%) hue-rotate(308deg) brightness(100%) contrast(102%);
+                    }
+                }
+            }
+        }
+        &.stat-paid{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(78%) sepia(53%) saturate(2195%) hue-rotate(360deg) brightness(102%) contrast(103%);
+                    }
+                }
+            }
+        }
+        &.stat-cleaning{
+            .item-base{
+                .item-content{
+                    img{
+                        filter: invert(96%) sepia(69%) saturate(7438%) hue-rotate(302deg) brightness(88%) contrast(88%);
+                    }
+                }
+            }
+        } 
+        &.size-md{
+            .item-base{
+                .item-content{
+                    .badge{
+                        right: 15%;
+                        top: 15%;
+                    }
+                }
+            }
+        }
+        &.has-badge{
+            .item-base{
+                .item-content{
+                    .badge{
+                        display: flex;
+                        color:  #0c184c;
+                        border-color: #4262eb;
+                        background: #ffffff;
+                    }
+                }
+            }
+            &.res-badge{
+                .item-base{
+                    .item-content{
+                        .badge{
+                            color: white;
+                            background: #008f67;
+                            border-color: #008f67;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
