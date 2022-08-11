@@ -3,7 +3,7 @@
 .grid-container {
     display: grid;
     width: 59.5703125vw;
-    height: 79.42708333333333vh;
+    height: 79.4370833333vh;
     background: #0c184c;
     .grid-item{
         //border: 1px solid #fff;
@@ -43,6 +43,7 @@
                     width: 100%;
                     height: 100%;
                     object-fit: fill;
+                    transform-origin: center;
                 }
                 .badge{
                     display: none;
@@ -69,6 +70,77 @@
                 
             }
         } 
+        &.barrier{
+            .item-base{
+                .item-content{
+                    width: 100%;
+                    height: 100%;
+                    img{
+                        filter: invert(93%) sepia(48%) saturate(5414%) hue-rotate(177deg) brightness(93%) contrast(75%);
+                    }
+                }
+            }
+          /*   &.barrier-line-outline{
+                transform-origin: center;
+                &.dir-top{
+                    .item-content{
+                        img{
+                            transform:rotate(270deg);
+                        }
+                    }
+                }
+                &.dir-bottom{
+                    .item-content{
+                        img{
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+                &.dir-left{
+                    .item-content{
+                        img{
+                            transform: scaleX(-1);
+                        }
+                    }
+                }
+            }
+            &.barrier-line{
+                transform-origin: center;
+                &.dir-top,&.dir-bottom{
+                    .item-content{
+                        img{
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+            }
+            &.barrier-joint{
+                
+                &.dir-right{
+                    .item-content{
+                        img{
+                            transform: rotate(90deg);
+                            
+                        }
+                    }
+                }
+                &.dir-bottom{
+                    .item-content{
+                        img{
+                            transform: scaleY(-1);
+                        }
+                    }
+                }
+                &.dir-left{
+                    .item-content{
+                        img{
+                            transform: rotate(-90deg);
+                        }
+                    }
+                    
+                }
+            } */
+        }
         &.stat-available{
             .item-base{
                 .item-content{

@@ -40,6 +40,20 @@ var TableShapes;
     TableShapes[TableShapes["Octagon"] = 5] = "Octagon";
     TableShapes[TableShapes["Diamond"] = 6] = "Diamond";
 })(TableShapes || (TableShapes = {}));
+var BarrierTypes;
+(function (BarrierTypes) {
+    BarrierTypes[BarrierTypes["Cross"] = 0] = "Cross";
+    BarrierTypes[BarrierTypes["Joint"] = 1] = "Joint";
+    BarrierTypes[BarrierTypes["Line"] = 2] = "Line";
+    BarrierTypes[BarrierTypes["LineOutline"] = 3] = "LineOutline";
+})(BarrierTypes || (BarrierTypes = {}));
+var Directions;
+(function (Directions) {
+    Directions[Directions["Top"] = 0] = "Top";
+    Directions[Directions["Bottom"] = 1] = "Bottom";
+    Directions[Directions["Right"] = 2] = "Right";
+    Directions[Directions["Left"] = 3] = "Left";
+})(Directions || (Directions = {}));
 var ShowMode;
 (function (ShowMode) {
     ShowMode[ShowMode["Covers"] = 0] = "Covers";
@@ -59,7 +73,11 @@ const layout = [
             TableSize: TableSizes.Medium
         }
     },
-    { ItemType: ItemTypes.Barrier, ItemIndex: "X1", ItemHeight: 2, ItemWidth: 1, ItemPosition: { x: 2, y: 0 }
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B1", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 2, y: 0 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.LineOutline,
+            Direction: Directions.Top
+        },
     },
     { ItemType: ItemTypes.Table, ItemIndex: "X2", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 3, y: 0 },
         TableObj: {
@@ -94,6 +112,12 @@ const layout = [
             TableSize: TableSizes.Small
         }
     },
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B2", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 2, y: 1 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.Line,
+            Direction: Directions.Top
+        },
+    },
     { ItemType: ItemTypes.Table, ItemIndex: "X5", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 3, y: 1 },
         TableObj: {
             NoOfCustomers: 5,
@@ -127,9 +151,46 @@ const layout = [
             TableSize: TableSizes.Small
         }
     },
-    { ItemType: ItemTypes.FreeSpace, ItemIndex: "X15", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 0, y: 2 }
+    { ItemType: ItemTypes.Table, ItemIndex: "X15", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 0, y: 2 },
+        TableObj: {
+            NoOfCustomers: 5,
+            ReservationDateTime: new Date(),
+            ReservationName: "Mohamed Khalifa",
+            TableNumber: 34,
+            TableShape: TableShapes.Circle,
+            TableState: TableStates.ItemsReadyInKitchen,
+            TableSize: TableSizes.Small
+        }
     },
-    { ItemType: ItemTypes.Barrier, ItemIndex: "X8", ItemHeight: 1, ItemWidth: 5, ItemPosition: { x: 1, y: 2 }
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B3", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 1, y: 2 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.LineOutline,
+            Direction: Directions.Left
+        },
+    },
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B4", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 2, y: 2 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.Cross,
+            Direction: Directions.Bottom
+        },
+    },
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B5", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 3, y: 2 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.Line,
+            Direction: Directions.Left
+        },
+    },
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B8", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 4, y: 2 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.Line,
+            Direction: Directions.Left
+        },
+    },
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B6", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 5, y: 2 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.LineOutline,
+            Direction: Directions.Right
+        },
     },
     { ItemType: ItemTypes.Table, ItemIndex: "X9", ItemHeight: 1, ItemWidth: 2, ItemPosition: { x: 0, y: 3 },
         TableObj: {
@@ -142,16 +203,11 @@ const layout = [
             TableSize: TableSizes.Small
         }
     },
-    { ItemType: ItemTypes.Table, ItemIndex: "X10", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 2, y: 3 },
-        TableObj: {
-            NoOfCustomers: 5,
-            ReservationDateTime: new Date(),
-            ReservationName: "Mohamed Khalifa",
-            TableNumber: 31,
-            TableShape: TableShapes.Circle,
-            TableState: TableStates.Available,
-            TableSize: TableSizes.Small
-        }
+    { ItemType: ItemTypes.Barrier, ItemIndex: "B7", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 2, y: 3 },
+        BarrierObj: {
+            BarrierType: BarrierTypes.LineOutline,
+            Direction: Directions.Bottom
+        },
     },
     { ItemType: ItemTypes.Table, ItemIndex: "X11", ItemHeight: 1, ItemWidth: 1, ItemPosition: { x: 3, y: 3 },
         TableObj: {
@@ -189,8 +245,10 @@ function WitchShowMode() {
     else {
         layoutShowMode = ShowMode.Reservations;
     }
+    GenerateLayout();
 }
 function GenerateLayout() {
+    grid.innerHTML = "";
     console.log("Begin Generation");
     if (layoutShowMode == undefined) {
         layoutShowMode = ShowMode.Covers;
@@ -246,17 +304,71 @@ function renderLayout(item, index) {
     grid === null || grid === void 0 ? void 0 : grid.appendChild(htmlItem);
 }
 function getImageUrl(Item) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     let imgUrl = "";
     switch (Item.ItemType) {
         case ItemTypes.Barrier:
-            imgUrl += Item.ItemWidth > Item.ItemHeight ? "./images/barrier-h.png" : "./images/barrier-v.png";
+            {
+                switch ((_a = Item.BarrierObj) === null || _a === void 0 ? void 0 : _a.BarrierType) {
+                    case BarrierTypes.Cross:
+                        imgUrl += "./images/Cross.png";
+                        break;
+                    case BarrierTypes.Joint:
+                        switch ((_b = Item.BarrierObj) === null || _b === void 0 ? void 0 : _b.Direction) {
+                            case Directions.Bottom:
+                                imgUrl += "./images/Joint-bottom.png";
+                                break;
+                            case Directions.Top:
+                                imgUrl += "./images/Joint-top.png";
+                                break;
+                            case Directions.Left:
+                                imgUrl += "./images/Joint-left.png";
+                                break;
+                            case Directions.Right:
+                                imgUrl += "./images/Joint-right.png";
+                                break;
+                        }
+                        break;
+                    case BarrierTypes.Line:
+                        switch ((_c = Item.BarrierObj) === null || _c === void 0 ? void 0 : _c.Direction) {
+                            case Directions.Bottom:
+                                imgUrl += "./images/Line-v.png";
+                                break;
+                            case Directions.Top:
+                                imgUrl += "./images/Line-v.png";
+                                break;
+                            case Directions.Left:
+                                imgUrl += "./images/Line-h.png";
+                                break;
+                            case Directions.Right:
+                                imgUrl += "./images/Line-h.png";
+                                break;
+                        }
+                        break;
+                    case BarrierTypes.LineOutline:
+                        switch ((_d = Item.BarrierObj) === null || _d === void 0 ? void 0 : _d.Direction) {
+                            case Directions.Bottom:
+                                imgUrl += "./images/LineOutline-bottom.png";
+                                break;
+                            case Directions.Top:
+                                imgUrl += "./images/LineOutline-top.png";
+                                break;
+                            case Directions.Left:
+                                imgUrl += "./images/LineOutline-left.png";
+                                break;
+                            case Directions.Right:
+                                imgUrl += "./images/LineOutline-right.png";
+                                break;
+                        }
+                        break;
+                }
+            }
             break;
         case ItemTypes.Table:
             {
-                switch ((_a = Item.TableObj) === null || _a === void 0 ? void 0 : _a.TableShape) {
+                switch ((_e = Item.TableObj) === null || _e === void 0 ? void 0 : _e.TableShape) {
                     case TableShapes.Circle: {
-                        switch ((_b = Item.TableObj) === null || _b === void 0 ? void 0 : _b.TableSize) {
+                        switch ((_f = Item.TableObj) === null || _f === void 0 ? void 0 : _f.TableSize) {
                             case TableSizes.Small:
                                 imgUrl += "./images/Circle-s.png";
                                 break;
@@ -270,7 +382,7 @@ function getImageUrl(Item) {
                         break;
                     }
                     case TableShapes.Rectangle: {
-                        switch ((_c = Item.TableObj) === null || _c === void 0 ? void 0 : _c.TableSize) {
+                        switch ((_g = Item.TableObj) === null || _g === void 0 ? void 0 : _g.TableSize) {
                             case TableSizes.Small:
                                 imgUrl += "./images/rectangle-s.png";
                                 break;
@@ -284,7 +396,7 @@ function getImageUrl(Item) {
                         break;
                     }
                     case TableShapes.Square: {
-                        switch ((_d = Item.TableObj) === null || _d === void 0 ? void 0 : _d.TableSize) {
+                        switch ((_h = Item.TableObj) === null || _h === void 0 ? void 0 : _h.TableSize) {
                             case TableSizes.Small:
                                 imgUrl += "./images/square-s.png";
                                 break;
@@ -356,12 +468,14 @@ function generateItemClass(Item) {
         default:
             genClass = "grid-item";
     }
-    switch (layoutShowMode) {
-        case ShowMode.Reservations:
-            genClass += ((_c = Item.TableObj) === null || _c === void 0 ? void 0 : _c.ReservationName) != undefined ? " has-badge res-badge" : "";
-            break;
-        default:
-            genClass += ((_d = Item.TableObj) === null || _d === void 0 ? void 0 : _d.NoOfCustomers) != 0 ? " has-badge" : "";
+    if (Item.ItemType == ItemTypes.Table) {
+        switch (layoutShowMode) {
+            case ShowMode.Reservations:
+                genClass += ((_c = Item.TableObj) === null || _c === void 0 ? void 0 : _c.ReservationName) != undefined ? " has-badge res-badge" : "";
+                break;
+            default:
+                genClass += ((_d = Item.TableObj) === null || _d === void 0 ? void 0 : _d.NoOfCustomers) != 0 ? " has-badge" : "";
+        }
     }
     return genClass;
 }

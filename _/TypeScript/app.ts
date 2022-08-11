@@ -41,6 +41,18 @@ enum TableShapes{
     Octagon,
     Diamond
 }
+enum BarrierTypes{
+    Cross,
+    Joint,
+    Line,
+    LineOutline
+}
+enum Directions{
+    Top,
+    Bottom,
+    Right,
+    Left
+}
 enum ShowMode{
     Covers,
     Total,
@@ -54,6 +66,10 @@ type LayoutItem = {
     ItemWidth: number,
     ItemHeight:number, 
     ItemPosition:{x:number,y:number},
+    BarrierObj?:{
+        BarrierType:BarrierTypes,
+        Direction: Directions
+    },
     TableObj? :{
         TableShape: TableShapes,
         TableState: TableStates,
@@ -78,8 +94,13 @@ const layout : LayoutItem [] =[
             TableSize :TableSizes.Medium
         }
     },
-    {ItemType : ItemTypes.Barrier ,ItemIndex: "X1" , ItemHeight:2,ItemWidth:1, ItemPosition:{x:2,y:0}
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B1" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:2,y:0},
+        BarrierObj:{
+            BarrierType:BarrierTypes.LineOutline,
+            Direction: Directions.Top
+        },
     },
+    
     {ItemType : ItemTypes.Table ,ItemIndex: "X2", ItemHeight:1,ItemWidth:1, ItemPosition:{x:3,y:0},
         TableObj : {
             NoOfCustomers : 5,
@@ -112,6 +133,12 @@ const layout : LayoutItem [] =[
             TableState:TableStates.CourseDelayed,
             TableSize :TableSizes.Small
         }
+    },
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B2" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:2,y:1},
+        BarrierObj:{
+            BarrierType:BarrierTypes.Line,
+            Direction: Directions.Top
+        },
     },
     {ItemType : ItemTypes.Table ,ItemIndex: "X5" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:3,y:1},
         TableObj : {
@@ -146,9 +173,46 @@ const layout : LayoutItem [] =[
             TableSize :TableSizes.Small
         }     
     },
-    {ItemType : ItemTypes.FreeSpace ,ItemIndex: "X15" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:0,y:2}
+    {ItemType : ItemTypes.Table ,ItemIndex: "X15" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:0,y:2},
+        TableObj : {
+            NoOfCustomers : 5,
+            ReservationDateTime : new Date(),
+            ReservationName: "Mohamed Khalifa",
+            TableNumber:34,
+            TableShape: TableShapes.Circle,
+            TableState:TableStates.ItemsReadyInKitchen,
+            TableSize :TableSizes.Small
+        }  
     },
-    {ItemType : ItemTypes.Barrier ,ItemIndex: "X8" , ItemHeight:1,ItemWidth:5, ItemPosition:{x:1,y:2}
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B3" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:1,y:2},
+        BarrierObj:{
+            BarrierType:BarrierTypes.LineOutline,
+            Direction: Directions.Left
+        },
+    },
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B4" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:2,y:2},
+        BarrierObj:{
+            BarrierType:BarrierTypes.Cross,
+            Direction: Directions.Bottom
+        },
+    },
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B5" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:3,y:2},
+        BarrierObj:{
+            BarrierType:BarrierTypes.Line,
+            Direction: Directions.Left
+        },
+    },
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B8" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:4,y:2},
+        BarrierObj:{
+            BarrierType:BarrierTypes.Line,
+            Direction: Directions.Left
+        },
+    },
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B6" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:5,y:2},
+        BarrierObj:{
+            BarrierType:BarrierTypes.LineOutline,
+            Direction: Directions.Right
+        },
     },
     {ItemType : ItemTypes.Table ,ItemIndex: "X9", ItemHeight:1,ItemWidth:2, ItemPosition:{x:0,y:3},
         TableObj : {
@@ -161,16 +225,11 @@ const layout : LayoutItem [] =[
             TableSize :TableSizes.Small
         }
     },
-    {ItemType : ItemTypes.Table ,ItemIndex: "X10", ItemHeight:1,ItemWidth:1, ItemPosition:{x:2,y:3},
-        TableObj : {
-            NoOfCustomers : 5,
-            ReservationDateTime : new Date(),
-            ReservationName: "Mohamed Khalifa",
-            TableNumber:31,
-            TableShape: TableShapes.Circle,
-            TableState:TableStates.Available,
-            TableSize :TableSizes.Small
-        }
+    {ItemType : ItemTypes.Barrier ,ItemIndex: "B7" , ItemHeight:1,ItemWidth:1, ItemPosition:{x:2,y:3},
+        BarrierObj:{
+            BarrierType:BarrierTypes.LineOutline,
+            Direction: Directions.Bottom
+        },
     },
     {ItemType : ItemTypes.Table ,ItemIndex: "X11", ItemHeight:1,ItemWidth:1, ItemPosition:{x:3,y:3},
         TableObj : {
@@ -211,6 +270,7 @@ function WitchShowMode(): void{
    GenerateLayout();
 }
 function GenerateLayout() : void{
+    grid.innerHTML = ""; 
     console.log("Begin Generation");
     if(layoutShowMode == undefined){
         layoutShowMode = ShowMode.Covers;
@@ -283,8 +343,61 @@ function renderLayout(item : LayoutItem , index:number):void{
 function getImageUrl(Item : LayoutItem): string{
     let imgUrl : string = "";
     switch(Item.ItemType) {
-        case ItemTypes.Barrier:
-            imgUrl += Item.ItemWidth > Item.ItemHeight ? "./images/barrier-h.png" : "./images/barrier-v.png";
+        case ItemTypes.Barrier: {
+            switch(Item.BarrierObj?.BarrierType) {
+                case BarrierTypes.Cross:
+                    imgUrl += "./images/Cross.png";
+                break;
+                case BarrierTypes.Joint:
+                    switch(Item.BarrierObj?.Direction){
+                        case Directions.Bottom:
+                            imgUrl += "./images/Joint-bottom.png";
+                            break;
+                        case Directions.Top:
+                            imgUrl += "./images/Joint-top.png";
+                            break;
+                        case Directions.Left:
+                            imgUrl += "./images/Joint-left.png";
+                            break;
+                        case Directions.Right:
+                            imgUrl += "./images/Joint-right.png";
+                            break;
+                    }
+                break;
+                case BarrierTypes.Line:
+                    switch(Item.BarrierObj?.Direction){
+                        case Directions.Bottom:
+                            imgUrl += "./images/Line-v.png";
+                            break;
+                        case Directions.Top:
+                            imgUrl += "./images/Line-v.png";
+                            break;
+                        case Directions.Left:
+                            imgUrl += "./images/Line-h.png";
+                            break;
+                        case Directions.Right:
+                            imgUrl += "./images/Line-h.png";
+                            break;
+                    }
+                break;
+                case BarrierTypes.LineOutline:
+                    switch(Item.BarrierObj?.Direction){
+                        case Directions.Bottom:
+                            imgUrl += "./images/LineOutline-bottom.png";
+                            break;
+                        case Directions.Top:
+                            imgUrl += "./images/LineOutline-top.png";
+                            break;
+                        case Directions.Left:
+                            imgUrl += "./images/LineOutline-left.png";
+                            break;
+                        case Directions.Right:
+                            imgUrl += "./images/LineOutline-right.png";
+                            break;
+                    }
+                break;
+            }
+        }
         break;
         case ItemTypes.Table: {
             switch(Item.TableObj?.TableShape) {
@@ -389,14 +502,15 @@ function generateItemClass(Item : LayoutItem): string{
         default:
             genClass = "grid-item";
     }
-    switch(layoutShowMode) {
-        case ShowMode.Reservations:
-            genClass  += Item.TableObj?.ReservationName != undefined ? " has-badge res-badge" : "";
-        break;
-        default:
-            genClass += Item.TableObj?.NoOfCustomers != 0 ? " has-badge" : "";
+    if(Item.ItemType == ItemTypes.Table){
+        switch(layoutShowMode) {
+            case ShowMode.Reservations:
+                genClass  += Item.TableObj?.ReservationName != undefined ? " has-badge res-badge" : "";
+            break;
+            default:
+                genClass += Item.TableObj?.NoOfCustomers != 0 ? " has-badge" : "";
+        }
     }
-    
     return genClass;
 }
 
